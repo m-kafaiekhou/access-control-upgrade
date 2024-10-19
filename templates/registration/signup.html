@@ -1,0 +1,105 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}Responsive Web Design{% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<form action="" method='post' onsubmit="return validateForm()"> 
+  {% csrf_token %}
+  <div class="container"></div>
+  <div class="container1">
+      <div class="container2">
+          <div class="container3">
+              <div class="container4"><p class="par">ثبت نام اپراتور</p></div>
+              <div class="container5">
+                  <div class="container6">
+                      <input required="" type="text" name="name" placeholder="نام" class="input1" autocomplete="off">
+                    </div>
+                    <div class="container7">
+                      <input required="" type="text" name="family" placeholder="نام خانوادگی" class="input2" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="container8">
+                      <div class="container9">
+                          <input required="" type="number" name="NID" placeholder="شماره ملی" class="input3" autocomplete="off">
+                        </div>
+                        <div class="container10">
+                          <input required="" type="number" name="PID" placeholder="شماره پرسنلی" class="input4" autocomplete="off">
+                        </div>
+                      </div>
+                      <div class="container11">
+                          <div class="container12">
+                            <select id="status" name="department" required style="font-size: calc(.9vw + .3vh); padding-right: 5px;">
+                              <option value="" disabled selected class="container37">واحد</option>
+                              {% for dep in departments %}
+                              <option value="{{ dep.id }}" class="container12">{{ dep.name }}</option>
+                            {% endfor %}
+                              </select>
+                          </div>
+                            <div class="container13">
+                              <div class="container14">
+                                <select id="status100" name="job" required style="font-size: calc(.9vw + .3vh);">
+                                  <option value="" disabled selected class="container333">سمت</option>
+                                  <option value="حراست" class="herasat" >حراست</option>
+                                  <option value="بهره بردار" class="bahrebardar">بهره بردار</option>
+                                  </select>
+                                </div>
+                          </div>
+                      </div>
+              <div class="container18">
+                  <div class="container19">
+                      <input required="" type="number" name="phone" placeholder="شماره تلفن" class="input6" autocomplete="off" >
+                    </div>
+                    <div class="container20">
+                      <div>
+                        <label for="year" class="text1">تاریخ اتمام خدمت</label>
+                        <select id="year" name="year" class="in">
+                          <option value="" disabled selected class="label7">سال</option>
+                        </select>
+                      </div>
+                      <div>
+                        <select id="month" name="month">
+                          <option value="" disabled selected class="label7">ماه</option>
+                        </select>
+                      </div>
+                      <div>
+                        <select id="day" name="day">
+                          <option value="" disabled selected class="label7">روز</option>
+                        </select>
+                      </div>
+                    </div>
+              </div>
+              <div class="container21">
+                  <div class="container22">
+                      <input required="" type="text" name="username" placeholder="نام کاربری" class="input8" autocomplete="off" id="username">
+                    </div>
+                    <div class="container23">
+                      <input required="" type="password" name="password1" placeholder="پسورد" class="input9" autocomplete="off" id="password1">
+                    </div>
+
+              </div>
+              <div class="container24">
+                  <div class="container25">
+                      <button class="pushable1" type="submit">
+                          <span class="shadow1"></span>
+                          <span class="edge1"></span>
+                          <span class="front1">
+                            <p>ثبت نام</p>
+                          </span>
+                        </button>
+                  </div>
+                  <div class="container26">
+
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+    </form>
+    <script src="{% static 'js/signup.js' %}"></script>
+{% endblock %}

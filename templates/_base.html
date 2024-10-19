@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+
+<!-- This line starts the HTML document and sets the default language to English -->
+<html lang="fa-ir" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This line sets the title of the webpage that appears in the browser tab -->
+    <title>{% block title %}{% endblock %}</title>
+
+      {% block style %}
+      {% endblock %}
+      <style>
+          * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+          font-family: 'Iranian Sans', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/static/images/acc/12.png);
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+        @font-face {
+            font-family: 'Iranian Sans';
+            src: url('/static/font/Iranian Sans.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Iranian Sans';
+            src: url('/static/font/Iranian Sans.ttf') format('truetype');
+        }
+
+        h1 {
+            font-family: 'Iranian Sans', sans-serif;
+        }
+
+        p {
+            font-family: 'Iranian Sans', sans-serif;
+        }
+        
+        .container{
+          max-width: 100%;
+          height: 5vh;
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          align-items: center;
+          justify-items: center;
+          color: rgb(0, 0, 0);
+          overflow-x: auto;
+        
+        }
+        .containerr {
+          margin-right: 1.2vw;
+          width: 2.5vw;
+          height: 5vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-self: right;
+            scroll-behavior: smooth;
+            border-radius: 50%;
+        
+        }
+        .menu1{
+          width: 2.5vw;
+          height: 4vh;
+        }
+        
+        
+        .popover {
+           display: none;
+        }
+        
+        .popover:target {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 5vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .popover .content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          width: 0;
+          height: 0;
+          color: #ffffff;
+          background-color: #0202025d;
+          animation: 1s grow ease forwards;
+          text-align: center;
+        }
+        
+        .nav_list  {
+          list-style-type: none;
+        }
+        
+        .nav_list a {
+          text-decoration: none;
+          font-size: calc(.5vw + .3vh);
+          color: #f8f8f8;
+          height: 1000;
+        }
+        
+        .nav_list_item {
+          height: 100%;
+          overflow: hidden;
+        }
+        
+        .nav_list li {
+          padding: 2vh 0;
+          text-transform: uppercase;
+          transform: translateY(20vh);
+          opacity: 0;
+          animation: 2s slideUp ease forwards .5s;
+          position: relative;
+        }
+        
+        .nav_list li::before {
+          content: '';
+          position: absolute;
+          height: 2px;
+          width: 0px;
+          left: 0;
+          bottom: 10px;
+          background: #00fff2; 
+          transition: all .5s ease;
+        }
+        
+        .nav_list li:hover:before {
+              width: 100%;
+        }
+        
+        .popover p {
+          padding: 0px;
+          opacity: 0;
+          animation: 1s fadeIn ease forwards 1s;
+        }
+        
+        .popover .close::after {
+          right: .2vw;
+          top: 0;
+          width: 4.5vw;
+          height: 9vh;
+          border-radius: 50%;
+          position: absolute;
+          display: flex;
+          z-index: 1;
+          font-size: calc(2vw + .3vh);
+          align-items: center;
+          justify-content: center;
+          background-color: #51ff00;
+          color: #fff;
+          content: "×";
+          cursor: pointer;
+          opacity: 0; 
+          animation: 1s fadeIn ease forwards .5s;
+        }
+
+        @keyframes grow {
+          100% {
+            height: 100vh;
+            width: 100vw;
+            border-radius: 50px;
+         }
+        }
+        
+        @keyframes fadeIn {
+        100% {
+          opacity: 1;
+         }
+        }
+        
+        @keyframes slideUp {
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+      </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="containerr">
+        <p>
+           <a href="#menu"><img class="menu1" src="{% static 'images/acc/menu-svgrepo-com.png' %}" alt=""></a>
+        </p>
+           
+       <div class="popover" id="menu">
+        <div class = 'content'>
+         <a href="#" class="close"></a>
+          <div class = 'nav'>
+           <ul class = 'nav_list'>
+             
+             <div class = 'nav_list_item'>
+           <li><a href="{% url 'cctv:cctv' %}">خانه</a></li>
+             </div>
+             {% if user.is_staff%}
+            <div class = 'nav_list_item'>
+           <li><a href="{% url 'accounts:signup' %}">ثبت نام اپراتور</a></li>
+             </div>
+             {% endif %}
+             {% if user.job != 'بهره بردار' %}
+           <div class = 'nav_list_item'>
+           <li><a href="{% url 'accounts:reg-personel' %}">ثبت نام پرسنل</a></li>
+             </div>
+             {% endif %}
+             {% if user.is_staff %}
+           <div class = 'nav_list_item'>
+           <li><a href="{% url 'accounts:edit-operator' %}">مشاهده اپراتور</a></li>
+             </div>
+             {% endif %}
+            <div class = 'nav_list_item'>
+           <li><a href="{% url 'accounts:edit-personal' %}">مشاهده پرسنل</a></li>
+             </div>
+             {% if user.is_staff %}
+             <div class = 'nav_list_item'>
+              <li><a href="{% url 'accounts:operator-log-report' %}">گزارش اپراتور</a></li>
+                </div>
+              {% endif %}
+               <div class = 'nav_list_item'>
+              <li><a href="{% url 'accounts:personellog-report' %}">گزارش پرسنل</a></li>
+                </div>
+                {% if user.is_staff %}
+                <div class = 'nav_list_item'>
+                <li><a href="{% url 'accounts:password-change' %}">تغییر کلمه عبور</a></li>
+                  </div>
+                {% endif %}
+              <div class = 'nav_list_item'>
+              <li><a href="{% url 'accounts:logout' %}">خروج</a></li>
+                </div>
+             
+         </ul>
+         </div>
+        </div>
+        </div>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+    </body>
+</html>

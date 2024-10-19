@@ -1,0 +1,383 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Edit{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/edit_personal.css' %}">
+{% endblock style %}
+
+{% block content %}
+<form action='' method='post' onsubmit="return validateForm()">
+    {% csrf_token %}
+<div class="container1">
+    <div class="container2">
+        <div class="container3">
+            <div class="container4">
+                <div class="container5">
+                    <div></div>
+                    <div class="container9">
+                        <div class="container10"><p class="pa1">نام و نام خانوادگی</p></div>
+                        <div class="container11">
+                            <input type="" name="" class="input1" placeholder="" value='{{user.name}} {{user.family}}'>
+                            <label class="label1"></label>
+                        </div>
+                    </div>
+                    <div class="container12">
+                        <div class="container13"><p class="pa2">سمت</p></div>
+                        <div class="container14">
+                            <input type="" name="" class="input2" placeholder="" value="{{ user.job }}">
+                            <label class="label2"></label>
+                        </div>
+                    </div>
+                    <div class="container15">
+                        <div class="container16"><p class="pa3">واحد</p></div>
+                        <div class="container17">
+                            <input type="" name="" class="input3" placeholder="" value="{{ user.department.name }}">
+                            <label class="label3"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container18">
+                    <div class="container20"><p class="pa">ویرایش پرسنل</p></div>
+                    <div class="container21">
+                        
+                        <div class="container22">
+                            <div class="container23">
+                                <input type="text" id="search-name" name="name" placeholder="نام"  class="input4" autocomplete="off">
+                            </div>
+                            <div class="container24">
+                                <input type="text" id="search-family" name="family" placeholder="نام خانوادگی"  class="input5" autocomplete="off">
+                            </div>
+                            <div class="container25">
+                                <input type="number" id="search-pid" name="pid" placeholder="شماره پرسنلی"  class="input6" autocomplete="off">
+                            </div>
+                            <div class="container26">
+                                <button class="pushable" type="button" id="search-btn">
+                                    <span class="shadow"></span>
+                                    <span class="edge"></span>
+                                    <span class="front">
+                                        <p>جستجو
+                                        </p>
+                                    </span>
+                                    </button>
+                            </div>
+                        </div>
+                        <div class="container27">
+                            <div class="container28">
+                                <label  class="text1">نام</label>
+                                <input required="" type="text" name="name" placeholder="" value="{{fp.name}}"  class="input7" autocomplete="off">
+                            </div>
+                            <div class="container29">
+                                <label  class="text2">نام خانوادگی</label>
+                                <input required="" type="text" name="family" placeholder="" value="{{fp.family}}" class="input8" autocomplete="off">
+                            </div>
+                            <div class="container30">
+                                <label  class="text3">شماره تماس</label>
+                                <input required="" type="number" name="phone" placeholder="" value="{{fp.phone}}" class="input9" autocomplete="off">
+                            </div>
+                            <div class="container31">
+                                {% comment %} <label  class="text4">شماره پرسنلی</label> {% endcomment %}
+                                <input required="" type="number" name="pid" placeholder="" value="{{fp.PID}}" class="input10" autocomplete="off" hidden id="pid">
+                            </div>
+                        </div>
+                        <div class="container32">
+                            <div class="container33">
+                            <label  class="text5">اتاق سرور</label>
+                            <select id="status1" name="server_room_permit" required style="font-size: calc(.8vw + .3vh);">
+                            <option value="" disabled selected class="container34"></option>
+                            {% if fp.permit.server_room_permit %}
+                                <option value="True" selected class="ok" >دارد</option>
+                                <option value="False" class="notok">ندارد</option>
+                            {% else %}
+                                <option value="True" class="ok" >دارد</option>
+                                <option value="False" selected class="notok">ندارد</option>
+                            {% endif %}
+                            </select>
+                        </div>
+                        <div class="container33">
+                            <label  class="text6">اتاق کنترل</label>
+                            <select id="status2" name="control_room_permit" required style="font-size: calc(.8vw + .3vh);">
+                            <option value="" disabled selected class="container34"></option>
+                            {% if fp.permit.control_room_permit %}
+                                <option value="True" selected class="ok" >دارد</option>
+                                <option value="False" class="notok">ندارد</option>
+                            {% else %}
+                                <option value="True" class="ok" >دارد</option>
+                                <option value="False" selected class="notok">ندارد</option>
+                            {% endif %}
+                            </select>
+                        </div>
+                        <div class="container33">
+                        <label  class="text7">اتاق UPS</label>
+                        <select id="status3" name="ups_room_permit" required style="font-size: calc(.8vw + .3vh);">
+                        <option value="" disabled selected class="container34"></option>
+                        {% if fp.permit.ups_room_permit %}
+                            <option value="True" selected class="ok" >دارد</option>
+                            <option value="False" class="notok">ندارد</option>
+                        {% else %}
+                            <option value="True" class="ok" >دارد</option>
+                            <option value="False" selected class="notok">ندارد</option>
+                        {% endif %}
+                        </select>
+                    </div>
+                    <div class="container33">
+                        <label  class="text8">پرمیت عملیاتی</label>
+                        <select id="status4" name="operation_permit" required style="font-size: calc(.8vw + .3vh);">
+                        <option value="" disabled selected class="container34"></option>
+                        {% if fp.permit.operation_permit %}
+                            <option value="True" selected class="ok" >دارد</option>
+                            <option value="False" class="notok">ندارد</option>
+                        {% else %}
+                            <option value="True" class="ok" >دارد</option>
+                            <option value="False" selected class="notok">ندارد</option>
+                        {% endif %}
+                        </select>
+                    </div>
+                    <div class="container33">
+                    <label  class="text9">پرمیت نظارتی</label>
+                    <select id="status5" name="supervision_permit" required style="font-size: calc(.8vw + .3vh);">
+                    <option value="" disabled selected class="container34"></option>
+                    {% if fp.permit.supervision_permit %}
+                        <option value="True" selected class="ok" >دارد</option>
+                        <option value="False" class="notok">ندارد</option>
+                    {% else %}
+                        <option value="True" class="ok" >دارد</option>
+                        <option value="False" selected class="notok">ندارد</option>
+                    {% endif %}
+                    </select>
+                    </div>
+                    <div class="container33">
+                    <label  class="text10">پرمیت خدماتی</label>
+                    <select id="status6" name="service_permit" required style="font-size: calc(.8vw + .3vh);">
+                    <option value="" disabled selected class="container34"></option>
+                    {% if fp.permit.service_permit %}
+                        <option value="True" selected class="ok" >دارد</option>
+                        <option value="False" class="notok">ندارد</option>
+                    {% else %}
+                        <option value="True" class="ok" >دارد</option>
+                        <option value="False" selected class="notok">ندارد</option>
+                    {% endif %}
+                    </select>
+                </div>
+                <div class="container33">
+                    <label  class="text11">واحد</label>
+                    <select id="status7" name="department" required style="font-size: calc(.8vw + .3vh);">
+                    <option value="" disabled selected class="container34"></option>
+                    {% for dep in departments %}
+                        {% if dep.id == fp.department.id %}
+                        <option value="{{ dep.id }}" selected class="container34">{{ dep.name }}</option>
+                        {% else %}
+                        <option value="{{ dep.id }}" class="container34">{{ dep.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="container33">
+                <label  class="text12">سمت</label>
+                <select id="status8" name="position" required style="font-size: calc(.8vw + .3vh);">
+                <option value="" disabled selected class="container34"></option>
+                {% if fp.position == "حراست" %}
+                <option value="حراست" selected class="herasat" >حراست</option>
+                <option value="بهره بردار" class="bahrebardar">بهره بردار</option>
+                {% elif fp.position == "بهره بردار" %}
+                <option value="حراست" class="herasat" >حراست</option>
+                <option value="بهره بردار" selected class="bahrebardar">بهره بردار</option>
+                {% endif %}
+                </select>
+            </div>
+                        </div>
+                        <div class="container35">
+                            <div class="container36">
+                            <label for="input" class="text13">شیفت تردد</label>
+                            <input type="text" placeholder="" name="input" class="input">
+                            <label class="checkBox checkbox3">
+                                {% if fp.shift.shift_B %}
+                                <input type="checkbox" checked='true' id="bah"  name="shift_B" value="True"/>
+                                {% else %}
+                                <input type="checkbox" id="bah"  name="shift_B" value="True"/>
+                                {% endif %}
+                                <div class="transition"></div>
+                            </label>
+                            <p class="ba2">B</p>
+                            <label class="checkBox checkbox4">
+                                {% if fp.shift.shift_A %}
+                                <input type="checkbox" checked='true' id="her" name="shift_A" value="True"/>
+                                {% else %}
+                                <input type="checkbox" id="her" name="shift_A" value="True"/>
+                                {% endif %}
+                                <div class="transition"></div>
+                            </label>
+                            <p class="ba3">A</p>
+                            <label class="checkBox checkbox5">
+                                {% if fp.shift.shift_C %}
+                                <input type="checkbox" checked='true' id="her" name="shift_C" value="True"/>
+                                {% else %}
+                                <input type="checkbox" id="her" name="shift_C" value="True"/>
+                                {% endif %}
+                                <div class="transition"></div>
+                                </label>
+                                <p class="ba4">C</p>
+                        </div>
+                        <div class="container37">
+                            <label  class="text14">تاریخ پرمیت</label>
+                            <input required="" value="{{ fp.permit_date_stop }}" name="permit_date_stop" placeholder=""  class="input11" autocomplete="off" id="date">
+                        </div>
+                        <div class="container38">
+                            <label  class="text15">ساعت پرمیت</label>
+                            <input required="" value="{{ fp.permit_time_stop|time:'H:i' }}" name="permit_time_stop" placeholder=""  class="input12" autocomplete="off" id="time">
+                        </div>
+                        <div class="container39">
+                        <button class="pushable1" type='button' id='delete-btn'>
+                            <span class="shadow1"></span>
+                            <span class="edge1"></span>
+                            <span class="front1">
+                                <p>حذف
+                                </p>
+                            </span>
+                            </button>
+                    </div>
+                    <div class="container40">
+                        <button class="pushable2" type='submit'>
+                            <span class="shadow2"></span>
+                            <span class="edge2"></span>
+                            <span class="front2">
+                            <p>{% if user.job == "بهره بردار" %}تایید{% else %}ویرایش{% endif %}
+                            </p>
+                            </span>
+                        </button>
+                    </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                    <div class="container41">
+                        <div class="container42">
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">نام</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">نام خانوادگی</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">واحد</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">شماره پرسنلی</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">شیفت</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">شماره تماس</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">سطح دسترسی</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">سمت</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">شروع پرمیت</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">پایان پرمیت</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">ساعت شروع</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">ساعت پایان</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                                <span class="sp" required style="font-size: calc(.4vw + .3vh);">اپراتور ثبت نام کننده</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">ویرایش کننده اول</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                                <span class="sp" style="font-size: calc(.4vw + .3vh);">تایید بهره بردار</span>
+                            </button>                                                     
+                        </div>
+                        {% for p in personals %}
+                        <div class="container44">
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.name }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.family }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.department.name }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.PID }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">
+                                {% if p.shift.shift_A and p.shift.shift_B and p.shift.shift_C %}
+                                A-B-C
+                                {% elif p.shift.shift_A and p.shift.shift_B %}
+                                A-B
+                                {% elif p.shift.shift_A and p.shift.shift_C %}
+                                A-C
+                                {% elif p.shift.shift_B and p.shift.shift_C %}
+                                B-C
+                                {% elif p.shift.shift_A %}
+                                A
+                                {% elif p.shift.shift_B %}
+                                B
+                                {% elif p.shift.shift_C %}
+                                C
+                                {% endif %}
+                            </span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.phone }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">
+                                {{ p.permit|any_true }}
+                            </span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.position }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.permit_date_start }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.permit_date_stop }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.permit_time_start|time:'H:i' }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.permit_time_stop|time:'H:i' }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.operator.family }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                            <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.first_editor.family }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                            {% if p.certify %}
+                            <span class="sp1">تایید</span>
+                            {% else %}
+                            <span class="sp1">در انتظار</span>
+                            {% endif %}
+                        </button>
+                        </div>                      
+                        {% endfor %}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/edit_personal.js' %}"></script>
+{% endblock content %}

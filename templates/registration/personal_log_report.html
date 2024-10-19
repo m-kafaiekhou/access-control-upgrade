@@ -1,0 +1,258 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Report{% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/personal_log_report.css' %}">
+{% endblock %}
+
+{% block content %}
+<form action="" method='get'> 
+    <div class="container1">
+        <div class="container2">
+            <div class="container3">
+                <div class="container4">
+                    <div class="container5">
+                        <div></div>
+                        <div class="container9">
+                            <div class="container10"><p class="pa1">نام و نام خانوادگی</p></div>
+                            <div class="container11">
+                                <input type="" name="" class="input1" placeholder="" value='{{user.name}} {{user.family}}'>
+                                <label class="label1"></label>
+                            </div>
+                        </div>
+                        <div class="container12">
+                            <div class="container13"><p class="pa2">سمت</p></div>
+                            <div class="container14">
+                                <input type="" name="" class="input2" placeholder="" value='{{user.job}}'>
+                                <label class="label2"></label>
+                            </div>
+                        </div>
+                        <div class="container15">
+                            <div class="container16"><p class="pa3">واحد</p></div>
+                            <div class="container17">
+                                <input type="" name="" class="input3" placeholder="" value='{{user.department.name}}'>
+                                <label class="label3"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container18">
+                        <div class="container20"><p class="pa">گزارش پرسنل کنترل تردد</p></div>
+                        <div class="container21">
+                            <div class="container22">
+                                <div class="container23">
+                                    <input type="text" name="name" placeholder="نام"  class="input4" autocomplete="off">
+                                </div>
+                                <div class="container24">
+                                    <div>
+                                      <label for="year1" class="text2">از تاریخ</label>
+                                      <select id="year1" name="year1" class="in">
+                                        <option value="" disabled selected class="label9">سال</option>
+                                      </select>
+                                    </div>
+                                    <div>
+                                      <select id="month1" name="month1">
+                                        <option value="" disabled selected class="label9">ماه</option>
+                                      </select>
+                                    </div>
+                                    <div>
+                                      <select id="day1" name="day1">
+                                        <option value="" disabled selected class="label9">روز</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="container25">
+                                    <div>
+                                      <label for="hour1" class="text4">از ساعت</label>
+                                      <select id="hour1" name="hour1" class="in">
+                                        <option value="" disabled selected class="label10">ساعت</option>
+                                      </select>
+                                    </div>
+                                    <div>
+                                      <select id="minute1" name="minute1">
+                                        <option value="" disabled selected class="label10">دقیقه</option>
+                                      </select>
+                                    </div>
+                                    <div>
+                                      <select id="second1" name="second1">
+                                        <option value="" disabled selected class="label10">ثانیه</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  
+                            </div>
+                            <div class="container27">
+                                <div class="container28">
+                                    <input type="text" name="family" placeholder="نام خانوادگی"  class="input6" autocomplete="off">
+                                </div>
+                                <div class="container29">
+                                  <div>
+                                    <label for="year2" class="text3">تا تاریخ</label>
+                                    <select id="year2" name="year2" class="in">
+                                      <option value="" disabled selected class="label9">سال</option>
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <select id="month2" name="month2">
+                                      <option value="" disabled selected class="label9">ماه</option>
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <select id="day2" name="day2">
+                                      <option value="" disabled selected class="label9">روز</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                  <div class="container30">
+                                    <div>
+                                      <label for="hour2" class="text5">تا ساعت</label>
+                                      <select id="hour2" name="hour2" class="in">
+                                        <option value="" disabled selected class="label10">ساعت</option>
+                                      </select>
+                                    </div>
+                                    <div>
+                                      <select id="minute2" name="minute2">
+                                        <option value="" disabled selected class="label10">دقیقه</option>
+                                      </select>
+                                    </div>
+                                    <div>
+                                      <select id="second2" name="second2">
+                                        <option value="" disabled selected class="label10">ثانیه</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="container31">
+                                <div class="container26">
+                                    <input type="number" name="pid" placeholder="شماره پسنلی"  class="input5" autocomplete="off">
+                                </div>
+                                <div class="container32">
+                                    <button class="pushable1" type='button' id='report-btn'>
+                                        <span class="shadow1"></span>
+                                        <span class="edge1"></span>
+                                        <span class="front1">
+                                          <p>گزارش</p>
+                                          
+                                        </span>
+                                      </button>
+                                </div>
+                                <div class="container33">
+                                    <button class="pushable" type='submit'>
+                                        <span class="shadow"></span>
+                                        <span class="edge"></span>
+                                        <span class="front">
+                                          <p>جستجو
+                                          </p>
+                                        </span>
+                                      </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container34">
+                    <div class="container35">
+                        <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">نام</span>
+                          </button>
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">نام خانوادگی</span>
+                          </button>
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">واحد</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">شماره پرسنلی</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">شیفت</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">شماره تماس</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">سطح دسترسی</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">سمت</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">تاریخ ورود</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">تاریخ خروج</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">ساعت ورود</span>
+                          </button> 
+                          <button  class="rainbow-hover">
+                            <span class="sp" style="font-size: calc(.4vw + .3vh);">ساعت خروج</span>
+                          </button>                                                     
+                    </div>
+                    {% for log in logs %}
+                      <div class="container37">
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.name}}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.family}}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.department.name}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.PID}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">
+                            {% if log.personal.shift.shift_A and p.shift.shift_B and p.shift.shift_C %}
+                            A-B-C
+                            {% elif log.personal.shift.shift_A and p.shift.shift_B %}
+                            A-B
+                            {% elif log.personal.shift.shift_A and p.shift.shift_C %}
+                            A-C
+                            {% elif log.personal.shift.shift_B and p.shift.shift_C %}
+                            B-C
+                            {% elif log.personal.shift.shift_A %}
+                            A
+                            {% elif log.personal.shift.shift_B %}
+                            B
+                            {% elif log.personal.shift.shift_C %}
+                            C
+                            {% endif %}
+                          </span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.phone}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.permit|any_true}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.personal.position}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.date_in}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.date_out}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.time_in|time:'H:i'}}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{log.time_out|time:'H:i'}}</span>
+                        </button>    
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script src="{% static 'js/personal_log_report.js' %}"></script>
+{% endblock %}
+

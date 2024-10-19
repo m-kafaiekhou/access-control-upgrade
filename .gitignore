@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# IDE files
+.vscode/
+*.pydevproject
+*.project
+*.idea/
+*.iml
+*.ipr
+
+# Local development
+venv/
+.env
+.venv
+
+# Frontend
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# Compiled files
+*.log
+*.out
+*.jsonc
+
+# Other
+*.DS_Store
+*.sqlite
+*.sqlite3
+*.bak
+*.orig
+*.coverage
+*ssh*

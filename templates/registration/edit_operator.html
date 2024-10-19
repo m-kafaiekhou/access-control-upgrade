@@ -1,0 +1,246 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}Edit Operator{% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/edit_operator.css' %}">
+{% endblock %}
+
+{% block content %}
+<form action="" method='post'> 
+  {% csrf_token %}
+  <div class="container1">
+    <div class="container2">
+        <div class="container3">
+            <div class="container4">
+                <div class="container5">
+                    <div></div>
+                    <div class="container9">
+                        <div class="container10"><p class="pa1">نام و نام خانوادگی</p></div>
+                        <div class="container11">
+                            <input required="" type="" name="" class="input1" placeholder="" value='{{user.name}} {{user.family}}'>
+                            <label class="label1"></label>
+                        </div>
+                    </div>
+                    <div class="container12">
+                        <div class="container13"><p class="pa2">سمت</p></div>
+                        <div class="container14">
+                            <input required="" type="" name="" class="input2" placeholder="" value="{{ user.job }}">
+                            <label class="label2"></label>
+                        </div>
+                    </div>
+                    <div class="container15">
+                        <div class="container16"><p class="pa3">واحد</p></div>
+                        <div class="container17">
+                            <input required="" type="" name="" class="input3" placeholder="" value="{{ user.department.name }}">
+                            <label class="label3"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container18">
+                    <div class="container20"><p class="pa">ویرایش اپراتور</p></div>
+                    <div class="container21">
+                        <div class="container22">
+                            <div class="container23">
+                                <input id="search-name" type="text" name="name" placeholder="نام"  class="input4" autocomplete="off">
+                            </div>
+                            <div class="container24">
+                                <input id="search-family" type="text" name="family" placeholder="نام خانوادگی"  class="input5" autocomplete="off">
+                            </div>
+                            <div class="container25">
+                                <input id="search-pid" type="number" name="pid" placeholder="شماره پرسنلی"  class="input6" autocomplete="off">
+                            </div>
+                            <div class="container26">
+                                <button class="pushable" type="button" id="search-btn2">
+                                    <span class="shadow"></span>
+                                    <span class="edge"></span>
+                                    <span class="front">
+                                      <p>جستجو
+                                      </p>
+                                    </span>
+                                  </button>
+                            </div>
+                        </div>
+                        <div class="container27">
+                            <div class="container28">
+                                <label  class="text1">نام</label>
+                                <input type="text" name="name" placeholder=""  class="input7" autocomplete="off" value="{{fo.name}}">
+                            </div>
+                            <div class="container29">
+                                <label  class="text2">نام خانوادگی</label>
+                                <input type="text" name="family" placeholder=""  class="input8" autocomplete="off" value="{{fo.family}}">
+                            </div>
+                            <div class="container30">
+                                <label  class="text3">شماره تماس</label>
+                                <input type="number" name="phone" placeholder=""  class="input9" autocomplete="off" value="{{fo.phone}}">
+                            </div>
+                            <div class="container31">
+        
+                                <input hidden id="pid" type="number" name="pid" placeholder=""  class="input10" autocomplete="off" value="{{fo.PID}}">
+                            </div>
+                        </div>
+                        <div class="container32">
+                          <div class="container33">
+                            <label  class="text5">واحد</label>
+                            <select id="status1" name="department" required style="font-size: calc(.8vw + .3vh);">
+                            <option value="" disabled selected class="container34"></option>
+                            {% for dep in departments %}
+                                {% if dep.id == fo.department.id %}
+                                <option value="{{ dep.id }}" selected class="container34">{{ dep.name }}</option>
+                                {% else %}
+                                <option value="{{ dep.id }}" class="container34">{{ dep.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="container33">
+                          <label  class="text6">سمت</label>
+                          <select id="status2" name="job" required style="font-size: calc(.8vw + .3vh);">
+                          <option value="" disabled selected class="container34"></option>
+                            {% if fo.job == "حراست" %}
+                            <option value="حراست" selected class="herasat" >حراست</option>
+                            <option value="بهره بردار" class="bahrebardar">بهره بردار</option>
+                            {% elif fo.job == "بهره بردار" %}
+                            <option value="حراست" class="herasat" >حراست</option>
+                            <option value="بهره بردار" selected class="bahrebardar">بهره بردار</option>
+                            {% endif %}
+                          </select>
+                      </div>
+                     
+                      <div class="container330">
+                        <label  class="text20">تاریخ پرمیت</label>
+                        <input required="" value="{{ fp.permit_date_stop }}" name="permit_date_stop" placeholder=""  class="input20" autocomplete="off" id="date">
+                    
+                        </div>
+                    <div class="container33">
+                      
+                  </div>
+                  <div class="container33">
+                   
+                  </div>
+                  <div class="container33">
+                    
+                </div>
+                <div class="container33">
+                  
+              </div>
+              <div class="container33">
+                
+            </div>
+                        </div>
+                        <div class="container35">
+                          <div class="container36">
+                            
+                        </div>
+                        <div class="container37">
+                         
+                      </div>
+                      <div class="container38">
+                         
+                      </div>
+                      <div class="container39">
+                        <button class="pushable1" type='button' id='delete-btn2'>
+                            <span class="shadow1"></span>
+                            <span class="edge1"></span>
+                            <span class="front1">
+                              <p>حذف
+                              </p>
+                            </span>
+                          </button>
+                    </div>
+                    <div class="container40">
+                      <button class="pushable2" type="submit">
+                          <span class="shadow2"></span>
+                          <span class="edge2"></span>
+                          <span class="front2">
+                            <p>ویرایش
+                            </p>
+                          </span>
+                        </button>
+                  </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                    <div class="container41">
+                      <div class="container42">
+                          <button  class="rainbow-hover">
+                              <span class="sp">نام</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                              <span class="sp">نام خانوادگی</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                              <span class="sp">واحد</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                              <span class="sp">شماره پرسنلی</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                              <span class="sp">شماره تماس</span>
+                            </button>
+                            <button  class="rainbow-hover">
+                              <span class="sp">سمت</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                              <span class="sp">تاریخ ورود</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                              <span class="sp">تاریخ خروج</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                              <span class="sp">ساعت ورود</span>
+                            </button> 
+                            <button  class="rainbow-hover">
+                              <span class="sp">ساعت خروج</span>
+                            </button>                                                  
+                      </div>
+                      {% for o in operators %}
+                      
+                      <div class="container44">
+                        <button  class="rainbow-hover1">
+                          <span class="sp1">{{ o.name }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                          <span class="sp1">{{ o.family }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                          <span class="sp1">{{ o.department.name }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1">{{ o.PID }}</span>
+                        </button>
+                        <button  class="rainbow-hover1">
+                          <span class="sp1">{{ o.phone }}</span>
+                        </button> 
+                        <button  class="rainbow-hover1">
+                          <span class="sp1">{{ o.job }}</span>
+                        </button> 
+                       
+                            <button  class="rainbow-hover1">
+                            <span class="sp1">{{ o.operatorlog_set.last.date_in }}</span>
+                            </button> 
+                            <button  class="rainbow-hover1">
+                            <span class="sp1">{{ o.operatorlog_set.last.date_out }}</span>
+                            </button> 
+                            <button  class="rainbow-hover1">
+                            <span class="sp1">{{ o.operatorlog_set.last.time_in|time:'H:i' }}</span>
+                            </button> 
+                            <button  class="rainbow-hover1">
+                            <span class="sp1">{{ o.operatorlog_set.last.time_out|time:'H:i' }}</span>
+                            </button>
+                        
+                      </div>   
+                      {% endfor %}                         
+                      </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/edit_operator.js' %}"></script>
+{% endblock %}

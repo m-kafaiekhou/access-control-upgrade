@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  web:
+    container_name: web
+    build: .
+    volumes:
+      - web_data:/usr/share/website/data
+      - /home/mahdiyar/Desktop:/dataset
+      - .:/code
+      - /dev:/dev
+      - /dev/bus/usb:/dev/bus/usb
+    networks:
+      main:
+    ports:
+      - "8001:8001"
+    environment:
+      - DEBUG=1
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    container_name: db
+    image: postgres:14
+    volumes:
+      - postgres_data:/usr/share/postgres/data
+    networks:
+      main:
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+
+    ports:
+      - "5432:5432"
+    restart: always
+
+  
+
+networks:
+  main:
+
+
+volumes:
+  web_data:
+  postgres_data:
+  

@@ -1,0 +1,78 @@
+{% load static %}
+<!-- This line starts the HTML document and sets the default language to English -->
+<html lang="fa-ir" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This line sets the title of the webpage that appears in the browser tab -->
+    <title>Login</title>
+
+      
+      <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  </head>
+
+  <body>
+<form action="" method='post'>
+    {% csrf_token %}
+    <div class="container">
+      <div class="one-div">
+        <img class="mg" src="{% static 'images/acc/ftm.jpg' %}" alt="">
+      </div>
+      <div class="one-div1">
+        <img class="mg1" src="{% static 'images/acc/pps.png' %}" alt="">
+      </div>
+    </div>
+    
+    <div class="container1">
+        <div class="c">
+            <div class="container3">
+              <div class="container8"><div class="tags"><p class="text-shadow1"><small>سامانه کنترل تردد</small></p>
+                <h1 class="text-shadow"> -- بینارو -- </h1>
+              </div>
+            </div>
+              
+                <div class="container4">
+                    <div class="container5">
+                        <input required="" type="text" name="username" placeholder="نام کاربری" class="input1" autocomplete="off" autocomplete="username">
+                      </div>
+                      <div class="container7">
+                        <input required="" type="password" name="password" placeholder="پسورد" class="input2" autocomplete="new-password" >
+                      </div>
+                </div>
+                <div class="container6">
+                    <div class="c1">
+                        <button class="pushable1" type="submit">
+                            <span class="shadow1"></span>
+                            <span class="edge1"></span>
+                            <span class="front1">
+                              <p>ورود</p>
+                              
+                            </span>
+                          </button>
+                    </div>
+                    <div class="c2">
+                        <button id="forgot" class="pushable" type='button'>
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">
+                              <p>فراموشی رمز عبور  
+                              </p>
+                            </span>
+                          </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    <div class="container2">
+    
+    </div>
+        
+</form>
+<script src="{% static 'js/login.js' %}"></script>
+</body>
+</html>

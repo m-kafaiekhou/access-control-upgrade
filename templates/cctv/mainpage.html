@@ -1,0 +1,141 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}بینارو{% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/mainpage.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container1">
+    <div class="container2">
+        <div class="container3">
+            <div class="container4">
+                <div class="container5">
+                    <div class="container9">
+                        <div class="container10"><p class="pa1">نام و نام خانوادگی</p></div>
+                        <div class="container11">
+                            <input required="" type="" name="" class="input1" placeholder="" value='{{user.name}} {{user.family}}'>
+                            <label class="label1"></label>
+                        </div>
+                    </div>
+                    <div class="container12">
+                        <div class="container13"><p class="pa2">سمت</p></div>
+                        <div class="container14">
+                            <input required="" type="" name="" class="input2" placeholder="" value='{{user.job}}'>
+                            <label class="label2"></label>
+                        </div>
+                    </div>
+                    <div class="container15">
+                        <div class="container16"><p class="pa3">واحد</p></div>
+                        <div class="container17">
+                            <input required="" type="" name="" class="input3" placeholder="" value='{{user.department.name}}'>
+                            <label class="label3"></label>
+                        </div>
+                    </div>
+
+
+
+                    <div class="container46">
+                        <p class="pa5">تنظیمات مهم</p>
+                      </div>
+                      <div class="container47">
+                        <div class="container48"><p class="pa4">تنظیمات درب</p></div>
+                        <div class="container49">
+                            {% if door %}
+                          <input id="checkboxInput" type="checkbox" checked>
+                          {% else %}
+                          <input id="checkboxInput" type="checkbox">
+                          {% endif %}
+                            <label class="toggleSwitch" for="checkboxInput">
+                            </label>
+                        </div>
+                        {% comment %} <div class="container50"><p class="pa4">تنظیمات تردد</p></div>
+                        <div class="container51">
+                            {% if total %}
+                          <input id="checkboxInput1" type="checkbox" checked>
+                          {% else %}
+                          <input id="checkboxInput1" type="checkbox">
+                          {% endif %}
+                            <label class="toggleSwitch1" for="checkboxInput1">
+                            </label>
+                        </div> {% endcomment %}
+                      </div>
+
+
+
+                </div>
+                <div class="container18">
+                    <div class="container19">
+                        <div class="container20">
+                            <p class="pa4">دوربین کنترل تردد</p>
+                        </div>
+                        <div class="container21">
+                            <img class="mg" src="http://127.0.0.1:8001/cctv/cameras/cam2/" alt="">
+                        </div>
+                    </div>
+                        <div class="container22">
+                            <div class="container23">
+                                <p class="pa4">دوربین اول</p>
+                            </div>
+                            <div class="container24">
+                                <img class="mg1" src="ftm.jpg" alt="">
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container25">
+                <div class="container26">
+                    <div class="container27">
+                        <div class="container28"><p class="pa">نام و نام خانوادگی</p></div>
+                        <div class="container29">
+                            <input required="" type="" name="" class="input4" placeholder="" id='fullname'>
+                            <label class="label4"></label>
+                        </div>
+                    </div>
+                    <div class="container30">
+                        <div class="container31"><p class="pa1">شماره تماس</p></div>
+                        <div class="container32">
+                            <input required="" type="" name="" class="input5" placeholder="" id='phone'>
+                            <label class="label5"></label>
+                        </div>
+                    </div>
+                    <div class="container33">
+                        <div class="container34"><p class="pa2">پرمیت</p></div>
+                        <div class="container35">
+                            <input required="" type="" name="" class="input6" placeholder="" id='permit'>
+                            <label class="label6"></label>
+                        </div>
+                    </div>
+                    <div class="container36">
+                        <div class="container37"><p class="pa3">تاریخ اعتبار پرمیت</p></div>
+                        <div class="container38">
+                            <input required="" type="" name="" class="input7" placeholder="" id='permit-date'>
+                            <label class="label7"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container39">
+                    <div class="container40">
+                        <div class="container41">
+                            <p class="pa4">دوربین دوم</p>
+                        </div>
+                        <div class="container42">
+                            <img class="mg2" src="ftm.jpg" alt="">
+                        </div>
+                    </div>
+                        <div class="container43">
+                            <div class="container44">
+                                <p class="pa4">دوربین سوم</p>
+                            </div>
+                            <div class="container45">
+                                <img class="mg3" src="ftm.jpg" alt="">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/mainpage.js' %}"></script>
+{% endblock %}
