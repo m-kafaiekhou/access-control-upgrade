@@ -47,9 +47,11 @@ finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-path_finger_pkl = r'C:\Users\neeng\Desktop\dataset1\FingerPrint\personal_finger.pkl'
-path_image = r'C:\Users\neeng\Desktop\dataset1\Image'
-mp3_directory = r'C:\Users\neeng\Desktop\dataset1\MP3'
+desktop_path = os.path.join(os.environ['USERPROFILE'], 'Desktop')
+
+path_finger_pkl = os.path.join(desktop_path, r'access_control\dataset\FingerPrint\personal_finger.pkl')
+path_image = os.path.join(desktop_path, r'access_control\dataset\Image')
+mp3_directory = os.path.join(desktop_path, r'access_control\dataset\MP3')
 mp3_files = [
     'Empty.mp3',      #[0]
     'Facedetect.mp3', #[1]
