@@ -24,6 +24,7 @@ from django.db.models import Q
 from jdatetime import datetime as jdatetime
 import jdatetime as jdt
 import pandas as pd
+from .utils import find_usb_port
 
 from pydub import AudioSegment
 from pydub.playback import play
@@ -45,9 +46,12 @@ try:
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 except:
     print("exception in init views")
-path_finger_pkl = r'C:\Users\SPONG BOB\Desktop\acc_project\node\DataSet\FingerPrint\personal_finger.pkl'
-path_image = r'C:\Users\SPONG BOB\Desktop\acc_project\node\DataSet\Image'
-mp3_directory = r'C:\Users\SPONG BOB\Desktop\acc_project\node\MP3'
+    
+desktop_path = os.path.join(os.environ['USERPROFILE'], 'Desktop')
+path_finger_pkl = os.path.join(desktop_path, r'access_control\dataset\FingerPrint\personal_finger.pkl')
+path_image = os.path.join(desktop_path, r'access_control\dataset\Image')
+mp3_directory = os.path.join(desktop_path, r'access_control\dataset\MP3')
+
 mp3_files = [
     'Empty.mp3',      #[0]
     'Facedetect.mp3', #[1]
@@ -402,7 +406,7 @@ class CommunicationView(View):
 
         if action == "finger":
             try:
-                uart = serial.Serial("COM5", baudrate=57600, timeout=10)
+                uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
                 finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
                 print("333 ln")
                 finger_success, msg = enroll_finger(pid, finger)
