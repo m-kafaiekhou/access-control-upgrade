@@ -48,9 +48,9 @@ except:
     print("exception in init views")
     
 desktop_path = os.path.join(os.environ['USERPROFILE'], 'Desktop')
-path_finger_pkl = os.path.join(desktop_path, r'access_control\dataset\FingerPrint\personal_finger.pkl')
-path_image = os.path.join(desktop_path, r'access_control\dataset\Image')
-mp3_directory = os.path.join(desktop_path, r'access_control\dataset\MP3')
+path_finger_pkl = os.path.join(desktop_path, r'access_control\node\DataSet\FingerPrint\personal_finger.pkl')
+path_image = os.path.join(desktop_path, r'access_control\node\DataSet\Image')
+mp3_directory = os.path.join(desktop_path, r'access_control\node\MP3')
 
 mp3_files = [
     'Empty.mp3',      #[0]
@@ -414,27 +414,27 @@ class CommunicationView(View):
 
             except Exception as e:
                 print("338 ln", e)
-                return JsonResponse({"msg": "اثر انگشت ثبت نشد"}, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({"msg": "اثر انگشت ثبت نشد"}, safe=False , status=HTTPStatus.BAD_REQUEST)
             
             finally:
                 if 'uart' in locals() and uart is not None:
                     uart.close()
 
             if finger_success:
-                return JsonResponse({'msg': msg}, status=HTTPStatus.CREATED)
+                return JsonResponse({'msg': msg}, safe=False , status=HTTPStatus.CREATED)
             else:
                 print("345 ln")
 
-                return JsonResponse({'msg': msg}, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'msg': msg}, safe=False , status=HTTPStatus.BAD_REQUEST)
 
         elif action == "image":
             face_success, msg = reg_face(pid)
             if face_success:
-                return JsonResponse({'msg': msg}, status=HTTPStatus.CREATED)
+                return JsonResponse({'msg': msg}, safe=False, status=HTTPStatus.CREATED)
             else:
-                return JsonResponse({'msg': msg}, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'msg': msg}, safe=False, status=HTTPStatus.BAD_REQUEST)
         else:
-            return JsonResponse({"msg": "Invalid action"}, status=HTTPStatus.BAD_REQUEST)
+            return JsonResponse({"msg": "Invalid action"}, safe=False , status=HTTPStatus.BAD_REQUEST)
         
 
 class GetLastRecognized(View):

@@ -11,4 +11,3 @@ def find_usb_port(port_description):
             return port.device  # Return the COM port (e.g., 'COM3')
     
     return 'COM8'
-
