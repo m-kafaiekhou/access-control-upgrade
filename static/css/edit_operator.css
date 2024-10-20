@@ -919,7 +919,7 @@ margin: 0;
 width: 100%;
 height: 9vh;
 display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+grid-template-columns: 1fr 1fr 1fr 1fr;
 align-items: center;
 justify-items: center;
 color: rgb(0, 0, 0);
@@ -941,7 +941,7 @@ font-size: calc(1vw + .3vh);
 }
 
 #status1 {
-width: 6vw;
+width: 13vw;
 height: 6vh;
 font-family: 'Iranian Sans', sans-serif;
 border: none;
@@ -961,7 +961,7 @@ outline: none;
 .text5{
 position: absolute;
 top: -1vh;
-left: 2vw;
+left: 10.3vw;
 background: #212121e3;
 color: white;
 font-size: calc(0.6vw + 0.3vh);
@@ -971,7 +971,7 @@ width: fit-content;
 
 
 #status2 {
-width: 6vw;
+width: 13vw;
 height: 6vh;
 font-family: 'Iranian Sans', sans-serif;
 border: none;
@@ -991,7 +991,7 @@ outline: none;
 .text6{
 position: absolute;
 top: -1vh;
-left: 2vw;
+left: 10.3vw;
 background: #212121e3;
 color: white;
 font-size: calc(0.6vw + 0.3vh);
@@ -1502,8 +1502,8 @@ font-weight: 700;
 width: fit-content;
 }
 
-.input11::-webkit-inner-spin-button,
-.input11::-webkit-outer-spin-button {
+.input12::-webkit-inner-spin-button,
+.input12::-webkit-outer-spin-button {
 -webkit-appearance: none;
 margin: 0;
 }
@@ -1512,6 +1512,57 @@ margin: 0;
 -webkit-appearance: none;
 margin: 0;
 }
+
+.container330 {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: white;
+    text-align: center;
+    justify-self: center;
+    align-items: center;
+    }
+    .input20 {
+    font-family: 'Iranian Sans', sans-serif;
+    width: 12vw;
+    height: 6vh;
+    border: none;
+    outline: none;
+    padding-right: 1vw;
+    border-radius: 6px;
+    color: #fff;
+    font-size: calc(1vw + .3vh);
+    background-color: #212121e3;
+    box-shadow: 3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+    
+    .input20:focus {
+    border: 2px solid transparent;
+    color: #fff;
+    box-shadow: 3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4),
+    inset 3px 3px 10px rgba(0,0,0,1),
+    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+    
+    .container20 .input11:valid,
+    .container20 .input11:focus {
+    box-shadow: 3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4),
+    inset 3px 3px 10px rgba(0,0,0,1),
+    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    }
+    .text20{
+    position: absolute;
+    top: -1vh;
+    left: 7.6vw;
+    background: #212121e3;
+    color: white;
+    font-size: calc(0.6vw + 0.3vh);
+    font-weight: 700;
+    width: fit-content;
+    }
 
 .container39{
 align-items: center;
