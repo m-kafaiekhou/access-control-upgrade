@@ -99,10 +99,11 @@ document.getElementById("finger-btn").addEventListener("click", function() {
         success: (jsonResponse) => {
             console.log(jsonResponse);
             get_finger = true;
-            window.alert(jsonResponse.message)
+            window.alert(jsonResponse.msg)
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            window.alert(jqXHR.message);
+            console.log("error finger");
+            window.alert(jqXHR.responseJSON.msg);
         },
     });
 
@@ -131,10 +132,11 @@ document.getElementById("image-btn").addEventListener("click", function() {
         success: (jsonResponse) => {
             console.log("success");
             get_image = true;
-            window.alert(jsonResponse.message);
+            window.alert(jsonResponse.msg);
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            window.alert(jqXHR.message);
+            window.alert(jqXHR.responseJSON.msg);
+            console.log("error face");
         },
     });
 

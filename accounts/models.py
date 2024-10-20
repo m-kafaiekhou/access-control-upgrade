@@ -82,30 +82,17 @@ class OperatorLog(models.Model):
 
 
 class Communication(models.Model):
-    cam_enable = models.BooleanField(max_length=1, default=0)
-    finger_enable = models.BooleanField(max_length=1, default=0)
-    rfid_enable = models.BooleanField(max_length=1, default=0)
-    total_enable = models.BooleanField(max_length=1, default=0)
-    cam_active = models.BooleanField(max_length=1, default=0)
-    get_image = models.BooleanField(max_length=1, default=0)
-    finger_active = models.BooleanField(max_length=1, default=0)
-    get_finger = models.BooleanField(max_length=1, default=0)
-    register = models.BooleanField(max_length=1, default=0)
-    PID = models.CharField(max_length=10, blank=True, null=True)
-    port = models.CharField(max_length=6, blank=True, null=True, default='8002')
-    permit = models.BooleanField(max_length=1, default=0)
-    open_door = models.BooleanField(max_length=1, default=0)
+    open_door = models.BooleanField(max_length=1, default=1)
+    delete_req = models.BooleanField(max_length=1, default=0)
+    restart = models.BooleanField(max_length=1, default=0)
     alarm1 = models.BooleanField(max_length=1, default=0)
     alarm2 = models.BooleanField(max_length=1, default=0)
-    register_end = models.BooleanField(max_length=1, default=0)
-    delete_req = models.BooleanField(max_length=1, default=0)
-
 
     class Meta:
         db_table = 'communication'
 
     def __str__(self) -> str:
-        return self.PID or "Communication"
+        return "Communication"
 
 
 class Personal(models.Model):
@@ -154,7 +141,7 @@ class PersonalLog(models.Model):
         ('entry', 'Entry')
     )
 
-    personal = models.ForeignKey(Personal, on_delete=models.PROTECT)
+    personal = models.ForeignKey(Personal, on_delete=models.CASCADE)
 
     date_in = jmodels.jDateField(default="1400-01-01")
     time_in = models.TimeField(blank=True, null=True)

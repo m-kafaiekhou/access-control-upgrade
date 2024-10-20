@@ -36,22 +36,18 @@ from deepface import DeepFace
 import queue
 from django.http import StreamingHttpResponse
 from django.views.decorators import gzip
+from PIL import Image
 
-from .utils import find_usb_port
+try:
+    frame_q = queue.Queue()
+    cap = cv2.VideoCapture(0)
 
-frame_q = queue.Queue()
-cap = cv2.VideoCapture(0)
-
-# uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
-# finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
-
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
-desktop_path = os.path.join(os.environ['USERPROFILE'], 'Desktop')
-
-path_finger_pkl = os.path.join(desktop_path, r'access_control\dataset\FingerPrint\personal_finger.pkl')
-path_image = os.path.join(desktop_path, r'access_control\dataset\Image')
-mp3_directory = os.path.join(desktop_path, r'access_control\dataset\MP3')
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+except:
+    print("exception in init views")
+path_finger_pkl = r'C:\Users\SPONG BOB\Desktop\acc_project\node\DataSet\FingerPrint\personal_finger.pkl'
+path_image = r'C:\Users\SPONG BOB\Desktop\acc_project\node\DataSet\Image'
+mp3_directory = r'C:\Users\SPONG BOB\Desktop\acc_project\node\MP3'
 mp3_files = [
     'Empty.mp3',      #[0]
     'Facedetect.mp3', #[1]
@@ -173,7 +169,7 @@ def reg_face(pid):
     try:
         frame = frame_q.queue[0]
     except IndexError:
-        return False
+        return (False, 'در گرفتن تصویر مشکلی پیش امده')
         
     isFace = detect_face(frame) 
     
@@ -385,11 +381,12 @@ class RegisterPersonel(UserPassesTestMixin, View):
         
         form = PersonalRegistrationForm(form_kwargs)
         if form.is_valid():
-            Communication.objects.update(id=1, register=False)
             form.save(commit=True)
+            messages.success(request, "پرسنل با موفقیت اضافه شد")
             return redirect(request.path)
         
-        return HttpResponse("Invalid Form Data", status=HTTPStatus.BAD_REQUEST)
+        messages.warning(request, "بعد از بررسی اطلاعات فرم دوباره تلاش کنید")
+        return redirect(request.path)
     
     def test_func(self):
         return self.request.user and self.request.user.job != "بهره بردار"
@@ -405,34 +402,35 @@ class CommunicationView(View):
 
         if action == "finger":
             try:
-                uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
+                uart = serial.Serial("COM5", baudrate=57600, timeout=10)
                 finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
                 print("333 ln")
                 finger_success, msg = enroll_finger(pid, finger)
                 print("335 ln")
 
             except Exception as e:
-                uart.close()
                 print("338 ln", e)
-                return JsonResponse({'message': "اثر انگشت ثبت نشد"}, safe=False, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({"msg": "اثر انگشت ثبت نشد"}, status=HTTPStatus.BAD_REQUEST)
             
+            finally:
+                if 'uart' in locals() and uart is not None:
+                    uart.close()
+
             if finger_success:
-                uart.close()
-                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.OK)
+                return JsonResponse({'msg': msg}, status=HTTPStatus.CREATED)
             else:
-                uart.close()
                 print("345 ln")
 
-                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'msg': msg}, status=HTTPStatus.BAD_REQUEST)
 
         elif action == "image":
             face_success, msg = reg_face(pid)
             if face_success:
-                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.CREATED)
+                return JsonResponse({'msg': msg}, status=HTTPStatus.CREATED)
             else:
-                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'msg': msg}, status=HTTPStatus.BAD_REQUEST)
         else:
-            return JsonResponse({'message': "Invalid Action"}, safe=False, status=HTTPStatus.BAD_REQUEST)
+            return JsonResponse({"msg": "Invalid action"}, status=HTTPStatus.BAD_REQUEST)
         
 
 class GetLastRecognized(View):
@@ -590,17 +588,76 @@ class EditPersonalView(LoginRequiredMixin, View):
 class DeletePersonalView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         pid = request.POST.get('pid')
-        
-        obj = Communication.objects.get(id=1)
-        obj.delete_req = True
-        obj.PID = pid
-        obj.save()
-        
-        personal = get_object_or_404(Personal, PID=pid)
-        personal.is_deleted = True
 
-        personal.save()
-        return JsonResponse(data={'redirect': reverse_lazy('accounts:edit-personal')})
+        personel_delete = False
+        finger_delete = False
+        face_delete = False
+
+        try:    
+            with open(path_finger_pkl, 'rb') as f:
+                persons = pickle.load(f)
+        
+            if pid in persons['pid'].values:
+                persons = persons[persons['pid'] != pid]
+                with open(path_finger_pkl, 'wb') as file:
+                    pickle.dump(persons, file)
+            else:
+                finger_delete = True
+        except Exception as e:
+            print(e)
+            pass
+        else:
+            finger_delete = True
+
+        
+        try:
+            img_path = os.path.join(path_image, f'{pid}.jpg')
+            if not os.path.isfile(img_path):
+                face_delete = True
+            os.remove(img_path)
+            face_delete = True
+            frame = np.zeros(shape=[100,100,3], dtype=np.uint8)
+
+            DeepFace.find(
+                    img_path=frame,
+                    db_path=path_image,
+                    model_name="GhostFaceNet",
+                    detector_backend="ssd",
+                    enforce_detection=False
+                    )
+        except Exception as e: 
+            print(e)
+            pass
+        else:
+            face_delete = True
+        
+        try:
+            print(pid)
+            personal = get_object_or_404(Personal, PID=pid)
+            personal.delete()
+        except Exception as e:
+            print(e)
+            personel_delete = False
+        else:
+            personel_delete = True
+        
+        redirect_flag = True
+
+        if face_delete and finger_delete and personel_delete:
+            msg = 'پرسنل با موفقیت حذف گردید'
+        elif personel_delete and finger_delete == False and face_delete == False:
+            msg = "پرسنل پاک شد اما اثر انگشت و چهره پاک نشد"
+        elif personel_delete and finger_delete and face_delete == False:
+            msg = "پرسنل پاک شد اما چهره پاک نشد"
+        elif personel_delete and finger_delete == False and face_delete:
+            msg = "پرسنل پاک شد اما اثر انگشت پاک نشد"
+        else:
+            redirect_flag = False
+            msg = "پرسنل پاک نشد"
+        
+        status_code = HTTPStatus.OK if redirect_flag else HTTPStatus.BAD_REQUEST
+
+        return JsonResponse(data={'redirect': reverse_lazy('accounts:edit-personal'), 'msg': msg}, status=status_code)
 
 
 class PersonalEnterLogView(View):
@@ -788,7 +845,7 @@ class DownloadPersonalLogView(LoginRequiredMixin, View):
             parsed_url = urlparse(previous_url)
             get_params = parse_qs(parsed_url.query)
         
-
+        print(get_params)
         name = get_params.get('name')
         family = get_params.get('family')
         pid = get_params.get('pid')
@@ -838,14 +895,14 @@ class DownloadPersonalLogView(LoginRequiredMixin, View):
             query &= Q(personal__PID=pid[0])
         if date_from_str:
             date_from = jdatetime.strptime(date_from_str, '%Y-%m-%d')
-            query &= Q(date_in__gt=date_from)  
+            query &= Q(date_in__gte=date_from)  
         if date_till_str:
             date_till = jdatetime.strptime(date_till_str, '%Y-%m-%d')
-            query &= Q(date_in__lt=date_till)
+            query &= Q(date_in__lte=date_till)
         if time_from:
-            query &= Q(time_in__gt=time_from)  
+            query &= Q(time_in__gte=time_from)  
         if time_till:
-            query &= Q(time_in__lt=time_till)
+            query &= Q(time_in__lte=time_till)
         
         qs = PersonalLog.objects.select_related('personal').filter(query).order_by("-date_in", "-time_in").values_list(
             'personal__name',
@@ -1020,14 +1077,14 @@ class DownloadOperatorLogView(UserPassesTestMixin, View):
             query &= Q(operator__PID=pid[0])
         if date_from_str:
             date_from = jdatetime.strptime(date_from_str, '%Y-%m-%d')
-            query &= Q(date_in__gt=date_from)  
+            query &= Q(date_in__gte=date_from)  
         if date_till_str:
             date_till = jdatetime.strptime(date_till_str, '%Y-%m-%d')
-            query &= Q(date_in__lt=date_till)
+            query &= Q(date_in__lte=date_till)
         if time_from:
-            query &= Q(time_in__gt=time_from)  
+            query &= Q(time_in__gte=time_from)  
         if time_till:
-            query &= Q(time_in__lt=time_till)
+            query &= Q(time_in__lte=time_till)
         
         qs = OperatorLog.objects.select_related('operator').filter(query).values_list(
             'operator__name',
@@ -1098,7 +1155,8 @@ class EditOperatorView(UserPassesTestMixin, View):
     def post(self, request, *args, **kwargs):
         data = request.POST
         print(data)
-        expire = data.get('expire')
+        permit_date_stop = data.get('permit_date_stop')
+        permit_time_stop = data.get('permit_time_stop')
     
         pid = data.get('pid')
 
@@ -1110,7 +1168,6 @@ class EditOperatorView(UserPassesTestMixin, View):
                 "phone": data.get('phone'),
                 "department_id": int(data.get('department')),
                 "job": data.get('job'),
-                "expire": expire
              }
         
 
@@ -1188,9 +1245,9 @@ class DeleteFaceView(View):
             
             img_path = os.path.join(path_image, f'{pid}.jpg')
             if not os.path.isfile(img_path):
-                return HttpResponse("تصویر چهره وجود ندارد", status=HTTPStatus.OK)
+                return JsonResponse({"msg": "تصویر چهره وجود ندارد"}, status=HTTPStatus.OK)
             os.remove(img_path)
-
+            deleted = True
             frame = np.zeros(shape=[100,100,3], dtype=np.uint8)
 
             DeepFace.find(
@@ -1200,10 +1257,13 @@ class DeleteFaceView(View):
                     detector_backend="ssd",
                     enforce_detection=False
                     )
-        except:
-            return HttpResponse("تصویر چهره پاک نشد", status=HTTPStatus.BAD_REQUEST)
+        except Exception as e: 
+            if deleted:
+                return JsonResponse({"msg":"تصویر چهره با موفقیت پاک شد"}, status=HTTPStatus.OK)
+
+            return JsonResponse({"msg": "تصویر چهره پاک نشد"}, status=HTTPStatus.BAD_REQUEST)
         else:
-            return HttpResponse("تصویر چهره با موفقیت پاک شد", status=HTTPStatus.OK)
+            return JsonResponse({"msg": "تصویر چهره با موفقیت پاک شد"}, status=HTTPStatus.OK)
         
 
 class DeleteFingerView(View):
@@ -1219,8 +1279,47 @@ class DeleteFingerView(View):
                 with open(path_finger_pkl, 'wb') as file:
                     pickle.dump(persons, file)
             else:
-                return HttpResponse("اثر انگشت وجود ندارد", status=HTTPStatus.OK)
+                return JsonResponse({"msg": "اثر انگشت وجود ندارد"}, status=HTTPStatus.OK)
         except:
-            return HttpResponse("اثر انگشت پاک نشد", status=HTTPStatus.BAD_REQUEST)
+            return JsonResponse({"msg": "اثر انگشت پاک نشد"}, status=HTTPStatus.BAD_REQUEST)
         else:
-            return HttpResponse("اثر انگشت با موفقیت پاک شد", status=HTTPStatus.OK)
+            return JsonResponse({"msg": "اثر انگشت با موفقیت پاک شد"}, status=HTTPStatus.OK)
+
+
+
+class ShowPersonalImageView(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            pid = request.POST.get('pid')
+            
+            _path = os.path.join(path_image, f'{pid}.jpg')
+            
+            if os.path.isfile(_path):  
+                img = Image.open(_path)
+                img.show()
+                return JsonResponse({"msg": "تصویر نمایش داده شد"}, status=HTTPStatus.OK)
+                
+            else:
+                return JsonResponse({"msg": "برای پرسنل تصویری وجود ندارد"}, status=HTTPStatus.BAD_REQUEST)
+                
+        except:
+            return JsonResponse({"msg": "مشکلی در نمایش تصویر بوجود امد"}, status=HTTPStatus.BAD_REQUEST)
+        
+        
+class ShowPersonalFingerView(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            pid = request.POST.get('pid')
+            
+            with open(path_finger_pkl, 'rb') as f:
+                persons = pickle.load(f)
+        
+            if pid in persons['pid'].values:
+                return JsonResponse({"msg": "اثرانگشت برای پرسنل ثبت شده است"}, status=HTTPStatus.OK)
+                
+            else:
+                return JsonResponse({"msg": "برای پرسنل اثرانگشت وجود ندارد"}, status=HTTPStatus.BAD_REQUEST)
+                
+        except:
+            return JsonResponse({"msg": "مشکلی در بررسی اثر انگشت بوجود امد"}, status=HTTPStatus.BAD_REQUEST)
+        

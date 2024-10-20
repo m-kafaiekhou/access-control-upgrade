@@ -26,6 +26,8 @@ from .views import (
     livestream_view,
     DeleteFaceView,
     DeleteFingerView,
+    ShowPersonalImageView,
+    ShowPersonalFingerView,
 )
 
 app_name = 'accounts'
@@ -55,5 +57,7 @@ urlpatterns = [
     path("reg-camera/", livestream_view, name="reg-camera"),
     path("delete-face/", DeleteFaceView.as_view(), name="delete-face"),
     path("delete-finger/", DeleteFingerView.as_view(), name="delete-finger"),
+    path("show-image/", ShowPersonalImageView.as_view(), name="show-image"),
+    path("show-finger/", ShowPersonalFingerView.as_view(), name="show-finger"),
 
 ]

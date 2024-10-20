@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('delete-btn').addEventListener('click', function() {
       pid = document.getElementById("pid").value;
-
+      
       var url = "/accounts/delete-personel/";
       
       let csrftoken = getCookie("csrftoken")
@@ -50,19 +50,82 @@ document.addEventListener('DOMContentLoaded', function() {
           data: {pid: pid},
           dataType: 'json',
           success: (response) => {
+              window.alert(response.msg)
               window.location.href = response.redirect;
           
           },
                         
-          error: function(xhr, status, error) {
-              console.log(error)
-              console.log(xhr.status)
+          error: function(xhr) {
+              console.log(xhr.responseJSON.msg)
+              window.alert(xhr.responseJSON.msg)
               
           }
       });
       });
   });
 
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('delete-face').addEventListener('click', function() {
+      pid = document.getElementById("pid").value;
+
+      var url = "/accounts/delete-face/";
+      
+      let csrftoken = getCookie("csrftoken")
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRFToken': csrftoken
+          }
+      });
+
+      $.ajax({
+          url: url, 
+          type: "POST",
+          data: {pid: pid},
+          dataType: 'json',
+          success: (response) => {
+            window.alert(response.msg);
+          
+          },
+                        
+          error: (xhr) => {
+            window.alert(xhr.responseJSON.msg);
+        },
+      });
+      });
+  });
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('delete-finger').addEventListener('click', function() {
+      pid = document.getElementById("pid").value;
+
+      var url = "/accounts/delete-finger/";
+      
+      let csrftoken = getCookie("csrftoken")
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRFToken': csrftoken
+          }
+      });
+
+      $.ajax({
+          url: url, 
+          type: "POST",
+          data: {pid: pid},
+          dataType: 'json',
+          success: (response) => {
+              window.alert(response.msg);
+          
+          },
+                        
+          error: (xhr) => {
+            window.alert(xhr.responseJSON.msg);
+        },
+      });
+      });
+  });
 
   function validateForm() {
     console.log("in form val")
@@ -84,3 +147,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
     return true;
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('show-image').addEventListener('click', function(event) {
+    const pid = this.getAttribute('data-pid');
+
+    console.log(pid)
+    var url = "/accounts/show-image/";
+    
+    let csrftoken = getCookie("csrftoken")
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    });
+
+    $.ajax({
+        url: url, 
+        type: "POST",
+        data: {pid: pid},
+        dataType: 'json',
+        success: (response) => {
+            console.log(response.msg);
+        
+        },
+                      
+        error: (xhr) => {
+          window.alert(xhr.responseJSON.msg);
+      },
+    });
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('show-finger').addEventListener('click', function(event) {
+    const pid = this.getAttribute('data-pid');
+
+    console.log(pid)
+    var url = "/accounts/show-finger/";
+    
+    let csrftoken = getCookie("csrftoken")
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    });
+
+    $.ajax({
+        url: url, 
+        type: "POST",
+        data: {pid: pid},
+        dataType: 'json',
+        success: (response) => {
+            window.alert(response.msg);
+        
+        },
+                      
+        error: (xhr) => {
+          window.alert(xhr.responseJSON.msg);
+      },
+    });
+    });
+});

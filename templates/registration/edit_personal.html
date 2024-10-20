@@ -233,7 +233,26 @@
                             <span class="shadow1"></span>
                             <span class="edge1"></span>
                             <span class="front1">
-                                <p>حذف
+                                <p>حذف کامل
+                                </p>
+                            </span>
+                            </button>
+                    </div>
+                    <div class="container399">
+                        <button class="pushable3" type='button' id='delete-face'>
+                            <span class="shadow3"></span>
+                            <span class="edge3"></span>
+                            <span class="front3">
+                                <p>حذف عکس
+                                </p>
+                            </span>
+                            </button>
+                    </div><div class="container3999">
+                        <button class="pushable4" type='button' id='delete-finger'>
+                            <span class="shadow4"></span>
+                            <span class="edge4"></span>
+                            <span class="front4">
+                                <p>حذف انگشت
                                 </p>
                             </span>
                             </button>
@@ -302,10 +321,10 @@
                         </div>
                         {% for p in personals %}
                         <div class="container44">
-                        <button  class="rainbow-hover1">
+                        <button  class="rainbow-hover1" id="show-image" data-pid="{{ p.PID }}">
                             <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.name }}</span>
                         </button>
-                        <button  class="rainbow-hover1">
+                        <button  class="rainbow-hover1" id="show-finger" data-pid="{{ p.PID }}">
                             <span class="sp1" style="font-size: calc(.4vw + .3vh);">{{ p.family }}</span>
                         </button>
                         <button  class="rainbow-hover1">

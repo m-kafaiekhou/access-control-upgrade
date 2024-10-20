@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from django.contrib import messages
 
 load_dotenv()
 
@@ -32,6 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "192.168.200.1",
+    "192.168.226.251",
 ]
 
 
@@ -161,3 +163,12 @@ TIME_INPUT_FORMATS = [
     '%H:%M:%S',  # 24-hour format with seconds
     '%H:%M',     # 24-hour format without seconds
 ]
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

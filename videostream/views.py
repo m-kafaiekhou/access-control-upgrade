@@ -168,7 +168,6 @@ def cctv(request):
     com = Communication.objects.last()
 
     context = {
-        'total': com.total_enable,
         'door': com.open_door
     }
 
