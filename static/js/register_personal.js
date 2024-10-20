@@ -99,10 +99,10 @@ document.getElementById("finger-btn").addEventListener("click", function() {
         success: (jsonResponse) => {
             console.log(jsonResponse);
             get_finger = true;
-            window.alert(jsonResponse)
+            window.alert(jsonResponse.message)
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            window.alert(jqXHR.responseText);
+            window.alert(jqXHR.message);
         },
     });
 
@@ -131,10 +131,10 @@ document.getElementById("image-btn").addEventListener("click", function() {
         success: (jsonResponse) => {
             console.log("success");
             get_image = true;
-            window.alert(jsonResponse);
+            window.alert(jsonResponse.message);
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            window.alert(jqXHR.responseText);
+            window.alert(jqXHR.message);
         },
     });
 

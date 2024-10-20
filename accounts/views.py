@@ -42,8 +42,8 @@ from .utils import find_usb_port
 frame_q = queue.Queue()
 cap = cv2.VideoCapture(0)
 
-uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
-finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
+# uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
+# finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -405,29 +405,34 @@ class CommunicationView(View):
 
         if action == "finger":
             try:
+                uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
+                finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
                 print("333 ln")
                 finger_success, msg = enroll_finger(pid, finger)
                 print("335 ln")
 
             except Exception as e:
+                uart.close()
                 print("338 ln", e)
-                return HttpResponse("اثر انگشت ثبت نشد", status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'message': "اثر انگشت ثبت نشد"}, safe=False, status=HTTPStatus.BAD_REQUEST)
             
             if finger_success:
-                return HttpResponse(msg, status=HTTPStatus.OK)
+                uart.close()
+                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.OK)
             else:
+                uart.close()
                 print("345 ln")
 
-                return HttpResponse(msg, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.BAD_REQUEST)
 
         elif action == "image":
             face_success, msg = reg_face(pid)
             if face_success:
-                return HttpResponse(msg, status=HTTPStatus.OK)
+                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.CREATED)
             else:
-                return HttpResponse(msg, status=HTTPStatus.BAD_REQUEST)
+                return JsonResponse({'message': msg}, safe=False, status=HTTPStatus.BAD_REQUEST)
         else:
-            return HttpResponse("Invalid action", status=HTTPStatus.BAD_REQUEST)
+            return JsonResponse({'message': "Invalid Action"}, safe=False, status=HTTPStatus.BAD_REQUEST)
         
 
 class GetLastRecognized(View):
