@@ -1155,8 +1155,7 @@ class EditOperatorView(UserPassesTestMixin, View):
     def post(self, request, *args, **kwargs):
         data = request.POST
         print(data)
-        permit_date_stop = data.get('permit_date_stop')
-        permit_time_stop = data.get('permit_time_stop')
+        expire = data.get('expire')
     
         pid = data.get('pid')
 
@@ -1168,6 +1167,7 @@ class EditOperatorView(UserPassesTestMixin, View):
                 "phone": data.get('phone'),
                 "department_id": int(data.get('department')),
                 "job": data.get('job'),
+                "expire": expire
              }
         
 
