@@ -190,9 +190,16 @@ def reg_face(pid):
             new_rep_one = DeepFace.find(
                 img_path=frame,
                 db_path=path_image,
-                model_name="GhostFaceNet",
+                model_name="SFace",
                 detector_backend="ssd",
                 enforce_detection=True
+                )
+            new_rep_two = DeepFace.find(
+                img_path=frame,
+                db_path=path_image,
+                model_name="Dlib",
+                detector_backend="ssd",
+                enforce_detection=True,
                 )
         except:
             return (False, 'ثبت تصویر با مشکل مواجه شد', )
