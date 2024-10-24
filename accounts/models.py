@@ -87,6 +87,7 @@ class Communication(models.Model):
     restart = models.BooleanField(max_length=1, default=0)
     alarm1 = models.BooleanField(max_length=1, default=0)
     alarm2 = models.BooleanField(max_length=1, default=0)
+    disablelogin = models.BooleanField(max_length=1, default=0)
 
     class Meta:
         db_table = 'communication'
