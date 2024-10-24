@@ -180,27 +180,27 @@ def reg_face(pid):
     if isFace:
         try:
             for filename in os.listdir(path_image):
-                if filename.startswith(str(pid)):
+                if filename.split('.')[0] == str(pid):
                     return (True, 'تصویر با این شماره پرسنلی وجود دارد', )
-                if filename.endswith(".pkl"):
-                    os.remove(os.path.join(path_image, filename))
+                # if filename.endswith(".pkl"):
+                #     os.remove(os.path.join(path_image, filename))
                 
             cv2.imwrite(os.path.join(path_image, f'{pid}.jpg'), frame)
 
-            new_rep_one = DeepFace.find(
-                img_path=frame,
-                db_path=path_image,
-                model_name="SFace",
-                detector_backend="ssd",
-                enforce_detection=True
-                )
-            new_rep_two = DeepFace.find(
-                img_path=frame,
-                db_path=path_image,
-                model_name="Dlib",
-                detector_backend="ssd",
-                enforce_detection=True,
-                )
+            # new_rep_one = DeepFace.find(
+            #     img_path=frame,
+            #     db_path=path_image,
+            #     model_name="SFace",
+            #     detector_backend="ssd",
+            #     enforce_detection=True
+            #     )
+            # new_rep_two = DeepFace.find(
+            #     img_path=frame,
+            #     db_path=path_image,
+            #     model_name="Dlib",
+            #     detector_backend="ssd",
+            #     enforce_detection=True,
+            #     )
         except:
             return (False, 'ثبت تصویر با مشکل مواجه شد', )
         else:
@@ -1264,10 +1264,17 @@ class DeleteFaceView(View):
             DeepFace.find(
                     img_path=frame,
                     db_path=path_image,
-                    model_name="GhostFaceNet",
+                    model_name="SFace",
                     detector_backend="ssd",
                     enforce_detection=False
                     )
+            DeepFace.find(
+                img_path=frame,
+                db_path=path_image,
+                model_name="Dlib",
+                detector_backend="ssd",
+                enforce_detection=True,
+                )
         except Exception as e: 
             if deleted:
                 return JsonResponse({"msg":"تصویر چهره با موفقیت پاک شد"}, status=HTTPStatus.OK)
