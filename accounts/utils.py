@@ -6,8 +6,12 @@ def find_usb_port(port_description):
     ports = serial.tools.list_ports.comports()
     
     for port in ports:
+        print(port.description)
         # Check if the desired description is in the port's description
         if port_description in port.description:
             return port.device  # Return the COM port (e.g., 'COM3')
     
     return 'COM8'
+
+
+# find_usb_port('USB-to-Serial')

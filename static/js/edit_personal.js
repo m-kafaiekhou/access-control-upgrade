@@ -150,36 +150,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('show-image').addEventListener('click', function(event) {
-    const pid = this.getAttribute('data-pid');
+  document.querySelectorAll('.show-image').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      const pid = this.getAttribute('data-pid');
+      console.log(pid);
+      
+      var url = "/accounts/show-image/";
+      let csrftoken = getCookie("csrftoken");
 
-    console.log(pid)
-    var url = "/accounts/show-image/";
-    
-    let csrftoken = getCookie("csrftoken")
-
-    $.ajaxSetup({
+      $.ajaxSetup({
         headers: {
-            'X-CSRFToken': csrftoken
+          'X-CSRFToken': csrftoken
         }
-    });
+      });
 
-    $.ajax({
-        url: url, 
+      $.ajax({
+        url: url,
         type: "POST",
-        data: {pid: pid},
+        data: { pid: pid },
         dataType: 'json',
         success: (response) => {
-            console.log(response.msg);
-        
+          console.log(response.msg);
         },
-                      
         error: (xhr) => {
           window.alert(xhr.responseJSON.msg);
-      },
+        }
+      });
     });
-    });
+  });
 });
+
 
 
 document.addEventListener('DOMContentLoaded', function() {

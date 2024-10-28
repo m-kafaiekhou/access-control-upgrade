@@ -413,14 +413,13 @@ class CommunicationView(View):
 
         if action == "finger":
             try:
-                uart = serial.Serial(find_usb_port('Prolific USB-to-Serial Comm Port'), baudrate=57600, timeout=10)
+                uart = serial.Serial(find_usb_port('USB-to-Serial'), baudrate=57600, timeout=10)
                 finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
-                print("333 ln")
+                
                 finger_success, msg = enroll_finger(pid, finger)
-                print("335 ln")
+                
 
             except Exception as e:
-                print("338 ln", e)
                 return JsonResponse({"msg": "اثر انگشت ثبت نشد"}, safe=False , status=HTTPStatus.BAD_REQUEST)
             
             finally:
@@ -430,7 +429,6 @@ class CommunicationView(View):
             if finger_success:
                 return JsonResponse({'msg': msg}, safe=False , status=HTTPStatus.CREATED)
             else:
-                print("345 ln")
 
                 return JsonResponse({'msg': msg}, safe=False , status=HTTPStatus.BAD_REQUEST)
 
