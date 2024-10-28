@@ -183,33 +183,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('show-finger').addEventListener('click', function(event) {
-    const pid = this.getAttribute('data-pid');
+  document.querySelectorAll('.show-finger').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      const pid = this.getAttribute('data-pid');
+      console.log(pid);
 
-    console.log(pid)
-    var url = "/accounts/show-finger/";
-    
-    let csrftoken = getCookie("csrftoken")
+      var url = "/accounts/show-finger/";
+      let csrftoken = getCookie("csrftoken");
 
-    $.ajaxSetup({
+      $.ajaxSetup({
         headers: {
-            'X-CSRFToken': csrftoken
+          'X-CSRFToken': csrftoken
         }
-    });
+      });
 
-    $.ajax({
-        url: url, 
+      $.ajax({
+        url: url,
         type: "POST",
-        data: {pid: pid},
+        data: { pid: pid },
         dataType: 'json',
         success: (response) => {
-            window.alert(response.msg);
-        
+          window.alert(response.msg);
         },
-                      
         error: (xhr) => {
           window.alert(xhr.responseJSON.msg);
-      },
+        }
+      });
     });
-    });
+  });
 });
