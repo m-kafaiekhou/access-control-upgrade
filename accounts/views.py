@@ -317,6 +317,23 @@ class LogoutView(LoginRequiredMixin, View):
 
         log.save()
 
+        try:
+            with open(path_finger_pkl, 'rb') as f:
+                persons = pickle.load(f)
+            pids = list(Personal.objects.values_list('PID', flat=True))
+            persons = persons[persons['pid'].isin(pids)]
+
+            with open(path_finger_pkl, 'wb') as file:
+                pickle.dump(persons, file)
+
+            for filename in os.listdir(path_image):
+                if filename.split('.')[0] not in pids:
+                    print(filename, "not in pids")
+                    os.remove(os.path.join(path_image, filename))
+
+        except Exception as e:
+            print("delete obsolete error ", e)
+
         return redirect(self.success_url)
     
 
