@@ -68,14 +68,21 @@ mp3_files = [
     'Repeat.mp3'      #[12]
 ]
 
-def cv_thread(frameq):
+def cv_thread(frame_q):
+    global cap
     while True:
-        _, frame = cap.read()
+        ret, frame = cap.read()
 
-        if _:
-            while frame_q.qsize() > 1:
-                frame_q.get()
-            frame_q.put(frame)
+        if not ret or frame is None:
+            print("Camera disconnected. Attempting to reconnect...")
+            cap.release()
+            sleep(1)
+            cap = cv2.VideoCapture(0)
+            continue
+
+        while frame_q.qsize() > 1:
+            frame_q.get()
+        frame_q.put(frame)
 
 threading.Thread(target=cv_thread, args=(frame_q, )).start()
 
